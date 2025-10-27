@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= user %> ↔ <%= friend %> | Mini Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f1f1;
+      margin: 0;
+      padding: 0;
+    }
+    .chat-box {
+      width: auto;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    h2 { text-align: center; color: #333; }
+    .messages {
+      height: 400px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: #fafafa;
+    }
+    .msg {
+      padding: 8px 10px;
+      margin: 6px 0;
+      border-radius: 8px;
+      width: fit-content;
+      max-width: 70%;
+      clear: both;
+    }
+    .sent {
+      background: #dcf8c6;
+      float: right;
+    }
+    .received {
+      background: #ebebeb;
+      float: left;
+    }
+    .input-area {
+      display: flex;
+      gap: 10px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 14px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chat-box">
+    <h2><%= user %> & <%= friend %></h2>
+
+    <div class="messages">
+      <% if (chats.length === 0) { %>
+        <p style="text-align:center; color:#777;">No messages yet</p>
+      <% } else { %>
+        <% chats.forEach(chat => { %>
+          <div class="msg <%= chat.from === user ? 'sent' : 'received' %>">
+            <%= chat.msg %>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+
+    <form action="/chats/send" method="POST" class="input-area">
+      <input type="hidden" name="from" value="<%= user %>">
+      <input type="hidden" name="to" value="<%= friend %>">
+      <input type="text" name="msg" placeholder="Type your message...">
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+</body>
+</html>
